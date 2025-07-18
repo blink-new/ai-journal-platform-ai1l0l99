@@ -7,10 +7,10 @@ export const blink = createClient({
   authRequired: true
 })
 
-// Supabase client for database operations
+// Supabase client for database operations - using service role key temporarily
 const supabaseUrl = 'https://ilfqkfjzfgfnmwsfwshu.supabase.co'
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlsZnFrZmp6Zmdmbm13c2Z3c2h1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI4MTM5MDMsImV4cCI6MjA2ODM4OTkwM30.lBZD1woKiLz_AbOWG2U4skZtx9bLKbz2VGkFch9yo_Y'
+const supabaseServiceKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlsZnFrZmp6Zmdmbm13c2Z3c2h1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1MjgxMzkwMywiZXhwIjoyMDY4Mzg5OTAzfQ.W0OVTMxIR2k9M62pRZHnwqQ1oI9qusL_DOilhIDHrh4'
 
-export const supabase = createSupabaseClient(supabaseUrl, supabaseAnonKey)
+export const supabase = createSupabaseClient(supabaseUrl, supabaseServiceKey)
 
 export default blink
