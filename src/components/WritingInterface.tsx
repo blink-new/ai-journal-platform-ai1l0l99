@@ -61,24 +61,24 @@ export const WritingInterface = ({ post, onSave, onBack }: WritingInterfaceProps
     setReadingTime(Math.max(1, Math.ceil(words / 200))) // 200 words per minute average
   }, [content])
 
-  // Auto-save functionality
-  useEffect(() => {
-    if (autoSaveRef.current) {
-      clearTimeout(autoSaveRef.current)
-    }
+  // Auto-save functionality (disabled for now to avoid circular dependencies)
+  // useEffect(() => {
+  //   if (autoSaveRef.current) {
+  //     clearTimeout(autoSaveRef.current)
+  //   }
     
-    if (title || content) {
-      autoSaveRef.current = setTimeout(() => {
-        handleSave(false)
-      }, 3000) // Auto-save after 3 seconds of inactivity
-    }
+  //   if (title || content) {
+  //     autoSaveRef.current = setTimeout(() => {
+  //       handleSave(false)
+  //     }, 3000) // Auto-save after 3 seconds of inactivity
+  //   }
 
-    return () => {
-      if (autoSaveRef.current) {
-        clearTimeout(autoSaveRef.current)
-      }
-    }
-  }, [title, content, selectedMood, tags, isFavorite, handleSave])
+  //   return () => {
+  //     if (autoSaveRef.current) {
+  //       clearTimeout(autoSaveRef.current)
+  //     }
+  //   }
+  // }, [title, content, selectedMood, tags, isFavorite])
 
   const handleSave = useCallback(async (showFeedback = true) => {
     if (!title.trim() && !content.trim()) return
