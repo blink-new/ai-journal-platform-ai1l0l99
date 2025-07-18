@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Header } from './components/Header'
 import { Dashboard } from './components/Dashboard'
 import { WritingInterface } from './components/WritingInterface'
+import { AuthForm } from './components/AuthForm'
 import { useAuth } from './hooks/useAuth'
 import type { Post } from './types'
 
@@ -71,32 +72,7 @@ function App() {
   }
 
   if (!user) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 dark:from-stone-900 dark:to-stone-800 flex items-center justify-center">
-        <div className="text-center max-w-md mx-auto px-4">
-          <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center mb-6 mx-auto">
-            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-            </svg>
-          </div>
-          <h1 className="text-3xl font-bold text-stone-900 dark:text-stone-100 mb-4">
-            Welcome to Journal AI
-          </h1>
-          <p className="text-stone-600 dark:text-stone-400 mb-8 leading-relaxed">
-            Your personal AI-powered journaling companion. Get professional counseling insights and humorous feedback on your thoughts and experiences.
-          </p>
-          <div className="bg-white dark:bg-stone-800 rounded-xl p-6 shadow-lg border border-stone-200 dark:border-stone-700">
-            <p className="text-sm text-stone-500 dark:text-stone-400 mb-4">
-              Please sign in to start your journaling journey
-            </p>
-            <div className="animate-pulse flex items-center justify-center">
-              <div className="w-4 h-4 bg-amber-400 rounded-full mr-2"></div>
-              <span className="text-stone-600 dark:text-stone-300">Redirecting to sign in...</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
+    return <AuthForm />
   }
 
   return (

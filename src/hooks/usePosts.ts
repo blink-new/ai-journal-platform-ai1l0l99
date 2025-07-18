@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { blink } from '../blink/client'
+import { supabase } from '../lib/supabase'
 import { useAuth } from './useAuth'
 import type { Post } from '../types'
 
@@ -20,24 +20,27 @@ export const usePosts = () => {
       setLoading(true)
       setError(null)
       
-      const result = await blink.db.posts.list({
-        where: { userId: user.id },
-        orderBy: { createdAt: 'desc' }
-      })
+      const { data, error: fetchError } = await supabase
+        .from('posts')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+      
+      if (fetchError) throw fetchError
       
       // Transform database results to match Post interface
-      const transformedPosts: Post[] = result.map((post: any) => ({
+      const transformedPosts: Post[] = (data || []).map((post: any) => ({
         id: post.id,
         title: post.title,
         content: post.content,
         tags: post.tags || [],
         mood: post.mood,
-        isFavorite: Number(post.isFavorite) > 0, // Convert SQLite boolean
-        wordCount: post.wordCount || 0,
-        readingTime: post.readingTime || 0,
-        createdAt: post.createdAt,
-        updatedAt: post.updatedAt,
-        userId: post.userId
+        isFavorite: post.is_favorite || false,
+        wordCount: post.word_count || 0,
+        readingTime: post.reading_time || 0,
+        createdAt: post.created_at,
+        updatedAt: post.updated_at,
+        userId: post.user_id
       }))
       
       setPosts(transformedPosts)
@@ -60,19 +63,25 @@ export const usePosts = () => {
       const wordCount = postData.content.split(/\s+/).filter(word => word.length > 0).length
       const readingTime = Math.max(1, Math.ceil(wordCount / 200)) // 200 words per minute
 
-      const newPost = await blink.db.posts.create({
-        title: postData.title,
-        content: postData.content,
-        tags: postData.tags,
-        mood: postData.mood,
-        isFavorite: postData.isFavorite,
-        wordCount,
-        readingTime,
-        userId: user.id
-      })
+      const { data, error: createError } = await supabase
+        .from('posts')
+        .insert({
+          title: postData.title,
+          content: postData.content,
+          tags: postData.tags,
+          mood: postData.mood,
+          is_favorite: postData.isFavorite,
+          word_count: wordCount,
+          reading_time: readingTime,
+          user_id: user.id
+        })
+        .select()
+        .single()
+
+      if (createError) throw createError
 
       await fetchPosts() // Refresh the list
-      return newPost
+      return data
     } catch (err) {
       console.error('Error creating post:', err)
       throw err
@@ -88,11 +97,22 @@ export const usePosts = () => {
         undefined
       const readingTime = wordCount ? Math.max(1, Math.ceil(wordCount / 200)) : undefined
 
-      await blink.db.posts.update(id, {
-        ...updates,
-        ...(wordCount && { wordCount }),
-        ...(readingTime && { readingTime })
-      })
+      const updateData: any = {}
+      if (updates.title !== undefined) updateData.title = updates.title
+      if (updates.content !== undefined) updateData.content = updates.content
+      if (updates.tags !== undefined) updateData.tags = updates.tags
+      if (updates.mood !== undefined) updateData.mood = updates.mood
+      if (updates.isFavorite !== undefined) updateData.is_favorite = updates.isFavorite
+      if (wordCount !== undefined) updateData.word_count = wordCount
+      if (readingTime !== undefined) updateData.reading_time = readingTime
+
+      const { error: updateError } = await supabase
+        .from('posts')
+        .update(updateData)
+        .eq('id', id)
+        .eq('user_id', user.id)
+
+      if (updateError) throw updateError
 
       await fetchPosts() // Refresh the list
     } catch (err) {
@@ -105,7 +125,14 @@ export const usePosts = () => {
     if (!user) throw new Error('User not authenticated')
 
     try {
-      await blink.db.posts.delete(id)
+      const { error: deleteError } = await supabase
+        .from('posts')
+        .delete()
+        .eq('id', id)
+        .eq('user_id', user.id)
+
+      if (deleteError) throw deleteError
+
       await fetchPosts() // Refresh the list
     } catch (err) {
       console.error('Error deleting post:', err)
