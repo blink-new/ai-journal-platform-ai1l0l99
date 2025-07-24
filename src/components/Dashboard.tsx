@@ -105,45 +105,45 @@ export const Dashboard = ({ onCreatePost, onEditPost }: DashboardProps) => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Compact Stats Bar */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 mb-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-amber-100 dark:bg-amber-900/20 rounded-lg">
-              <BookOpen className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+      {/* Compact Stats Bar - Much Smaller Design */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-3 mb-6 shadow-sm">
+        <div className="flex flex-wrap justify-between items-center gap-4">
+          <div className="flex items-center gap-2">
+            <div className="p-1.5 bg-amber-100 dark:bg-amber-900/20 rounded-md">
+              <BookOpen className="h-3 w-3 text-amber-600 dark:text-amber-400" />
             </div>
             <div>
-              <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">{stats.totalPosts}</div>
-              <div className="text-xs text-gray-500 dark:text-gray-400">Total Posts</div>
+              <div className="text-sm font-medium text-gray-900 dark:text-gray-100">{stats.totalPosts}</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">Posts</div>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
-              <TrendingUp className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+          <div className="flex items-center gap-2">
+            <div className="p-1.5 bg-blue-100 dark:bg-blue-900/20 rounded-md">
+              <TrendingUp className="h-3 w-3 text-blue-600 dark:text-blue-400" />
             </div>
             <div>
-              <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">{stats.totalWords.toLocaleString()}</div>
-              <div className="text-xs text-gray-500 dark:text-gray-400">Words Written</div>
+              <div className="text-sm font-medium text-gray-900 dark:text-gray-100">{stats.totalWords.toLocaleString()}</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">Words</div>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-green-100 dark:bg-green-900/20 rounded-lg">
-              <Target className="h-4 w-4 text-green-600 dark:text-green-400" />
+          <div className="flex items-center gap-2">
+            <div className="p-1.5 bg-green-100 dark:bg-green-900/20 rounded-md">
+              <Target className="h-3 w-3 text-green-600 dark:text-green-400" />
             </div>
             <div>
-              <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">{stats.currentStreak}</div>
-              <div className="text-xs text-gray-500 dark:text-gray-400">Day Streak</div>
+              <div className="text-sm font-medium text-gray-900 dark:text-gray-100">{stats.currentStreak}</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">Streak</div>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-red-100 dark:bg-red-900/20 rounded-lg">
-              <Heart className="h-4 w-4 text-red-600 dark:text-red-400" />
+          <div className="flex items-center gap-2">
+            <div className="p-1.5 bg-red-100 dark:bg-red-900/20 rounded-md">
+              <Heart className="h-3 w-3 text-red-600 dark:text-red-400" />
             </div>
             <div>
-              <div className="text-lg font-semibold text-gray-900 dark:text-gray-100">{stats.favoriteCount}</div>
+              <div className="text-sm font-medium text-gray-900 dark:text-gray-100">{stats.favoriteCount}</div>
               <div className="text-xs text-gray-500 dark:text-gray-400">Favorites</div>
             </div>
           </div>
